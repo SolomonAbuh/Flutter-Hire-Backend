@@ -10,6 +10,11 @@ exports.registerValidationRules = () => {
     body("password")
       .isLength({ min: 6 })
       .withMessage("Password must be at least 6 characters"),
+    body("user_type")
+      .notEmpty()
+      .withMessage("Please provide user type")
+      .isIn(["employer", "job seeker"])
+      .withMessage("User type must be either employer or job seeker"),
   ];
 };
 

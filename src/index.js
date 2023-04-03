@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const logger = require("../src/utils/logger");
-const authRoutes = require("../src/routes/authRoute");
+const authRoutes = require("./routes/routes");
+
 const { username, password } = require("./keys");
 
 const app = express();
