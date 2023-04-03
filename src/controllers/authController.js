@@ -6,7 +6,7 @@ const logger = require("../utils/logger");
 // Register a new user
 exports.signup = async (req, res, next) => {
   try {
-    const { email, password, full_name } = req.body;
+    const { email, password, full_name, user_type } = req.body;
 
     // Check if user with same email already exists
     const existingUser = await User.findOne({ email });
@@ -20,7 +20,12 @@ exports.signup = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const user = new User({ email, password: hashedPassword, full_name });
+    const user = new User({
+      email,
+      password: hashedPassword,
+      full_name,
+      user_type,
+    });
     await user.save();
 
     logger.info(`New user registered: ${user.email}`);

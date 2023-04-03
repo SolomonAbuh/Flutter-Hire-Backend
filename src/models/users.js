@@ -5,6 +5,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  user_type: {
+    type: String,
+    required: true,
+    enum: ["job_seeker", "employer"],
+  },
   email: {
     type: String,
     required: true,
