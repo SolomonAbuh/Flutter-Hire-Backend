@@ -4,10 +4,13 @@ const bodyParser = require("body-parser");
 const logger = require("./utils/logger");
 const authRoutes = require("./routes/routes");
 
-const { username, password } = require("./keys");
+// const { username, password } = require("./keys");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const username = process.env.DB_USERNAME;
+const password = process.env.DB_PASSWORD;
 
 // connect to MongoDB database
 mongoose
