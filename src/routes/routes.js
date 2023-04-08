@@ -25,6 +25,8 @@ router.post(
   authController.signin
 );
 
+router.post("/api/validateToken", authController.jwtValidator);
+
 //Get /get all users
 router.get("/api/users", userController.getAllUsers);
 

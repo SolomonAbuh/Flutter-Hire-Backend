@@ -58,8 +58,51 @@ exports.signin = async (req, res, next) => {
 
     logger.info(`User logged in: ${user.email}`);
 
-    res.json({ message: "User logged in successfully", token });
+    console.log(token);
+    res.status(200).json({
+      message: "User logged in successfully",
+      token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        full_naame: user.full_name,
+        user_type: user.user_type,
+      },
+    });
   } catch (error) {
+    console.log(`${error} is saying this`);
     next(error);
+  }
+};
+
+// JWT token validator middleware
+exports.jwtValidator = async (req, res, next) => {
+  try {
+    // Get token from header
+    const token = req.header("x-auth-token");
+
+    // Verify token
+    const decoded = jwt.verify(token, "passwordKey");
+
+    const userId = decoded["userId"];
+
+    // Find user with token and token value in the user's token array
+    const user = await User.findById(userId);
+
+    if (!user) {
+      logger.error("Invalid token - user not found");
+      return res.status(401).json({ error: "Invalid token" });
+    } else {
+      res.status(200).json({ message: "Valid token" });
+    }
+
+    // Add user and token to request object
+    // req.user = user;
+    // req.token = token;
+
+    // next();
+  } catch (error) {
+    logger.error(`Error validating token: ${error.message}`);
+    return res.status(401).json({ error: "Invalid token" });
   }
 };
